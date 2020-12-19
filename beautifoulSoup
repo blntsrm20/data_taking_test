@@ -1,0 +1,17 @@
+from bs4 import BeautifulSoup
+import requests
+
+
+headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0", "Accept-Encoding":"gzip, deflate", "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT":"1","Connection":"close", "Upgrade-Insecure-Requests":"1"}
+
+#url ="https://www.sahibinden.com/ilan/vasita-otomobil-alfa-romeo-alfa-garage-dan-satilik-alfa-romeo-156-1.6-komple-motor-yapili-874159330/detay"
+url ="https://www.sahibinden.com/ilan/vasita-otomobil-volvo-lider-auto-s90-2.0-d5-inscription-geartronic-kusursuz-bayi-873874963/detay"
+r = requests.get(url, headers=headers)#,proxies=proxies)
+content=r.content
+soup=BeautifulSoup(content)
+aboo=soup.find('ul',attrs={'class':'classifiedInfoList'})
+ab=aboo.find_all("li")
+#print(ab[0].text)
+
+for info in ab:
+    print((info.text.replace("\n","")).replace(" ",""))
