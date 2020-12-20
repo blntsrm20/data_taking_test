@@ -10,8 +10,8 @@ driver=webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
 def sayfaUrlAl():
     print('Bilgi Almak istediğiniz araba model urlsi: ')
-    url=input()
-    #url="https://www.sahibinden.com/alfa-romeo"
+    #url=input()
+    url="https://www.sahibinden.com/ilan/vasita-otomobil-alfa-romeo-argon-dan-2000-alfa-romeo-2.0-156-mk1-sunroof-deri-koltuk-875347555/detay"
     counter=0
     urls = []
     urls.append(url)
@@ -59,8 +59,29 @@ def carDetail(url):
     carDetails = []
     driver.get(url)
     h1=driver.find_element_by_class_name('classifiedInfoList')
-    aboo=h1.find_elements_by_tag_name('li')
-    carDetailsTemp=[]
+    aboo=h1.find_elements_by_tag_name('span')
+    tempDetails=[]
+    #saybakalımahmet=0
+    for i in aboo:
+        tempDetails.append(i.text)
+        #saybakalımahmet=saybakalımahmet+1
+    price=driver.find_element_by_class_name('classifiedInfo')#araba fiyatını buluyor
+    priceGet=price.find_element_by_tag_name('h3')#araba fiyatını çekiyor
+    locationGet=price.find_element_by_tag_name('h2')#yer bilgisini çekiyor
+    tempDetails.append(priceGet.text)
+    tempDetails.append(locationGet.text)
+    tempDetails.append(url)
+    print(tempDetails)
+
+
+    #print(saybakalımahmet)
+    """for span in aboo:
+        temp = span.find_element_by_tag_name('span')
+        print(temp.text)"""
+
+    #print(int(aboo[0].text.split(' ')[-1]).__class__)
+
+    """carDetailsTemp=[]
     price=driver.find_element_by_class_name('classifiedInfo')#araba fiyatını buluyor
     priceGet=price.find_element_by_tag_name('h3')#araba fiyatını çekiyor
     locationGet=price.find_element_by_tag_name('h2')#yer bilgisini çekiyor
@@ -74,6 +95,11 @@ def carDetail(url):
     for i in carDetails:
         #for a in i:
         #    print(a)
-        print(i)
+        print(i)"""
 
-sayfaUrlAl()
+#sayfaUrlAl()
+#carDetail('https://www.sahibinden.com/ilan/vasita-otomobil-alfa-romeo-argon-dan-2000-alfa-romeo-2.0-156-mk1-sunroof-deri-koltuk-875347555/detay')
+
+for cDetail in pageCarUrl('https://www.sahibinden.com/alfa-romeo'):
+    carDetail(cDetail)
+driver.quit()
